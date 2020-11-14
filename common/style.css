@@ -33,7 +33,7 @@ body
 	font-family:embeddedSans,sans-serif;
 	font-size:18px;
 	line-height:1.4em;
-	color:#808080;
+	color:#888888;
 	background-color:#181818;
 }
 .divInner
@@ -132,14 +132,4 @@ ul
 {
 	background-color:transparent;
 	text-decoration:underline;
-}
-#headerInner img
-{
-	height:1.5em;
-	vertical-align:middle;
-}
-#headerInner span
-{
-	display:inline-block;
-	white-space:pre;
 }
