@@ -61,7 +61,7 @@ Copy from macOS 10.13.6:
 <br><code>/System/Library/Extensions/NVDAResmanTesla.kext
 /System/Library/Extensions/NVDANV50HalTesla.kext</code>
 <br>
-<br><h3>fix <code>VSLGestalt</code> missing symbol</h3>
+<br><h3>fix VSLGestalt missing symbol</h3>
 Install <a target="_blank" href="https://forums.macrumors.com/members/parrotgeek1.1033441/">@parrotgeek1</a>'s <a target="_blank" href="https://forums.macrumors.com/attachments/10-14patch-zip.790578/">NDRVShim.kext</a>.
 <br>
 <br><i>Or</i>, replace from 10.13.6:
@@ -90,12 +90,12 @@ Copy from 10.13.6:
 Replace from 10.13.6:
 <br><code>/System/Library/Extensions/AppleUSBACM.kext</code>
 <br>
-<br><h3>prevent <code>WindowServer</code> crash since 10.14.4</h3>
+<br><h3>prevent WindowServer crash since 10.14.4</h3>
 Replace from 10.14.3:
 <br><code>/System/Library/PrivateFrameworks/GPUSupport.framework
 /System/Library/Frameworks/OpenGL.framework</code>
 <br>
-<br><h3>prevent <code>WindowServer</code> crash since 10.14.5</h3>
+<br><h3>prevent WindowServer crash since 10.14.5</h3>
 Replace from 10.14.4:
 <br><code>/System/Library/Frameworks/CoreDisplay.framework</code>
 <br>
@@ -109,7 +109,7 @@ sudo chown -R root:wheel /Volumes/Mojave/System/Library/Extensions</code>
 <code>defaults write -g CGFontRenderingFontSmoothingDisabled -bool false</code>
 <br>
 <br><h3>fix News app crash</h3>
-<code>sudo printf "\n/System/Library/Frameworks/OpenCL.framework" >> /System/iOSSupport/dyld/macOS-whitelist.txt</code>
+<code>sudo printf "\n/System/Library/Frameworks/OpenCL.framework" &gt;&gt; /System/iOSSupport/dyld/macOS-whitelist.txt</code>
 </div>
 </div>
 </div>

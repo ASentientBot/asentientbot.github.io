@@ -33,7 +33,7 @@ body
 	font-family:embeddedSans,sans-serif;
 	font-size:18px;
 	line-height:1.4em;
-	color:#888888;
+	color:#909090;
 	background-color:#181818;
 }
 .divInner
@@ -59,17 +59,17 @@ h1,h2,h3
 h1
 {
 	font-size:2.5em;
-	color:#207020;
+	color:#208020;
 }
 h2
 {
 	font-size:1.7em;
-	color:#2C602C;
+	color:#2C682C;
 }
 h3
 {
 	font-size:1.2em;
-	color:#385038;
+	color:#405840;
 }
 
 code,a
