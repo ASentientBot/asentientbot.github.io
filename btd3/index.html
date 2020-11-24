@@ -43,12 +43,12 @@ Open the SWF in FFDec and find the <code>mochicrypt.Preloader</code> script.
 <br>
 <br><h3>BloonsTD patches</h3>
 Open the decrypted SWF, navigate to the <code>BloonsTD</code> class, find the <code>EnterFrame()</code> function, and insert the following code at the start:
-<br><code>for(var i=0;!(this.bloonholder.numChildren&gt;=i);i++)
+<br><code>for(var i=0;this.bloonholder.numChildren&gt;i;i++)
 {
 	this.bloonholder.getChildAt(i).Update(null);
 }</code>
 <br>
-<br>However, FFDec's direct AS3 editor will corrupt this script upon saving. Writing P-code (Flash assembly language), is difficult. The easiest solution is to make the change in AS3, copy the equivalent P-code (everything from <code>pushbyte 0</code> to the first <code>iftrue</code>), reload the SWF, and then re-insert the P-code.
+<br>However, FFDec's direct AS3 editor will corrupt this script upon saving. Writing P-code (Flash assembly language), is difficult. The easiest solution is to make the change in AS3, copy the equivalent P-code (everything from <code>pushbyte 0</code> to the first <code>ifgt</code>), reload the SWF, and then re-insert the P-code.
 <br>
 <br><img alt="" src="/btd3/pcode1.png"/>
 <br>
