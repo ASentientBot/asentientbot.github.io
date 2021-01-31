@@ -29,7 +29,7 @@ Revert Catalina's green window button to its previous unintrusive existence.
 <br><code>defaults write -g NSZoomButtonShowMenu -bool false</code>
 <br>
 <br><h2>read serial from filesystem</h2>
-Useful if you have a disk (image) but lack access to the machine itself. Tested on Yosemite and Catalina; might not always work.
+Useful if you have a disk (image) but lack access to the machine itself. Tested on Yosemite and Catalina, might not always work.
 <br><code>find /var/folders -name consolidated.db -exec sqlite3 -batch {} .dump \;</code>
 </div>
 </div>
