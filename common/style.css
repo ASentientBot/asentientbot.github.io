@@ -33,9 +33,10 @@ body
 	font-family:embeddedSans,sans-serif;
 	font-size:18px;
 	line-height:1.4em;
-	color:#909090;
-	background-color:#181818;
+	color:#000000;
+	background-color:#ffffff;
 }
+
 .divInner
 {
 	margin:0px auto 0px auto;
@@ -43,93 +44,90 @@ body
 	max-width:700px;
 }
 
+#headerOuter
+{
+	background-color:#00af00;
+}
+#headerInner
+{
+	text-align:center;
+	font-weight:bold;
+	color:#c0f0c0;
+}
+#headerInner a
+{
+	color:inherit;
+}
+#headerInner a:hover
+{
+	background-color:#30a030;
+}
+#headerInner h1
+{
+	font-size:2.9em;
+	color:#ffffff;
+}
+
 h1,h2,h3
 {
 	margin:0px;
 	line-height:1.4em;
-	font-weight:normal;
-	font-style:italic;
-}
-.mainTitle
-{
-	font-size:2.9em;
-	color:#00AF00;
-	font-style:normal;
+	font-weight:bold;
 }
 h1
 {
 	font-size:2.5em;
-	color:#208020;
+	color:#808080;
 }
 h2
 {
 	font-size:1.7em;
-	color:#2C682C;
+	color:#a0a0a0;
 }
 h3
 {
 	font-size:1.2em;
-	color:#405840;
+	color:#c0c0c0;
 }
 
-code,a
-{
-	padding:0px 0.2em 0px 0.2em;
-}
 code
 {
+	/* TODO: some weird workarounds up in here */
+	padding:0.1em 0.2em;
 	display:inline-block;
 	white-space:pre-wrap;
 	word-break:break-all;
 	font-family:embeddedMono,monospace;
-	font-style:normal;
 	font-size:0.9em;
 	line-height:1.4em;
-	font-weight:normal;
-	color:#C890C0;
-	background-color:#242022;
+	color:#b000b0;
+	outline:1px dashed #ffc0ff;
+	outline-offset:-2px;
 }
+
 a
 {
+	margin:0px -0.2em;
+	padding:0.1em 0.2em;
 	text-decoration:none;
-	color:#6070F0;
-	background-color:#202127;
+	color:#0000ff;
+	border-radius:0.05em;
 	transition:background-color 0.1s;
 }
 a:hover
 {
-	background-color:#282946;
+	background-color:#e0e0ff;
 }
 
 img
 {
 	max-width:100%;
+	border-radius:0.1em;
 }
 
 ul
 {
 	margin:0px;
-	padding:0px 0px 0px 1em;
+	padding:0px 0px 0px 1.5em;
 	list-style-type:square;
-}
-
-#headerOuter
-{
-	background-color:#202020;
-}
-#headerInner
-{
-	text-align:center;
-}
-#headerInner a
-{
-	padding:0px;
-	color:inherit;
-	background-color:transparent;
-	font-weight:inherit;
-}
-#headerInner a:hover
-{
-	background-color:transparent;
-	text-decoration:underline;
 }
