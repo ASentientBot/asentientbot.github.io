@@ -18,7 +18,7 @@
 <div id="bodyOuter" class="divOuter">
 <div id="bodyInner" class="divInner">
 <h1>fixing dumped IPAs</h1>
-<a target="_blank" href="https://github.com/KJCracks/Clutch">Clutch</a> and <a target="_blank" href="https://github.com/AloneMonkey/frida-ios-dump">frida-ios-dump</a> are essential for archiving iOS apps, but just <a target="_blank" href="https://cydia.akemi.ai/?page/com.linusyang.appinst">appinst</a>-ing the resulting IPAs doesn't always work. A few crash instantly; many seem to work but won't save logins. This is caused by both utilities' failure to preserve entitlements, including the ability to access the keychain. The solution is hardly worth a webpage, but it stumped me for a while, and no tutorials seem to mention it.
+<a target="_blank" href="https://github.com/KJCracks/Clutch">Clutch</a> and <a target="_blank" href="https://github.com/AloneMonkey/frida-ios-dump">frida-ios-dump</a> are essential for archiving iOS apps, but just <a target="_blank" href="https://cydia.akemi.ai/?page/com.linusyang.appinst">appinst</a>-ing the resulting IPAs doesn't always work. A few crash instantly; many seem to work but won't save logins. This is caused by both utilities' failure to preserve entitlements. The solution is hardly worth a webpage, but it stumped me for a bit, and no tutorials seem to mention it.
 <br>
 <br><h2>retrieve encrypted bundle</h2>
 After dumping the IPA as usual, unzip it and check the app bundle's name. Then, on iOS:
@@ -28,12 +28,14 @@ tar cf encrypted.tar "$bundlePath"</code>
 <br>Transfer the resulting archive to a Mac.
 <br>
 <br><h2>dump entitlements</h2>
-Unzip the encrypted app.
-<br><code>codesign --dump --entitlements /tmp/entitlements.xml &lt;name&gt;.app</code>
+Unzip the encrypted app. Dump its entitlements:
+<br><code>codesign --dump --entitlements /tmp/entitlements.xml --xml &lt;name&gt;.app</code>
 <br>
 <br><h2>re-sign</h2>
-Unzip the dumped IPA.
-<br><code>codesign -f -s - --entitlements /tmp/entitlements.xml &lt;name&gt;.app</code>
+Unzip the dumped IPA. Ad-hoc sign it with the dumped entitlements:
+<br><code>codesign -f -s - --deep --entitlements /tmp/entitlements.xml &lt;name&gt;.app</code>
+<br>
+<br>With certain apps, such as Twitter, it seems necessary to re-run this command for individiual frameworks that handle the keychain.
 <br>
 <br>You can now re-zip the <code>Payload</code> folder, rename to IPA, and install on a jailbroken device.
 </div>
