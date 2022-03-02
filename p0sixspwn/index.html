@@ -166,17 +166,19 @@ Unlike official builds, the <a target="_blank" href="https://github.com/p0sixspw
 <br><h3>disable version check</h3>
 Change the <code>verify_product()</code> function in <code>src/jailbreak.c</code> to always return <code>0</code>.
 <br>
-<br><h3>get required files</h3>
+<br><h3>update untether payload</h3>
+Fetch the latest <a target="_blank" href="http://apt.saurik.com/debs/com.ih8sn0w-squiffy-winocm.p0sixspwn_1.4-1_iphoneos-arm.deb">deb</a> from <a target="_blank" href="https://www.saurik.com">Saurik</a>'s Cydia repository. This supports iOS 6.1.6 and fixes 3G/iMessage issues.
+<br>
+<br>Replace <code>payload/common/install.deb</code> and rebuild p0sixspwn.
+<br>
+<br><h3>update untether payload (old method)</h3>
 Copy <code>payload/common/install.deb</code> from the p0sixspwn source. Download <a target="_blank" href="https://github.com/winocm">winocm</a>'s <a target="_blank" href="https://github.com/winocm/p0sixspwn_lite">p0sixspwn_lite</a> and copy the contents of <code>p0sixspwn.tproj/Root/Library/Helpers/</code>.
 <br>
-<br><h3>update payload</h3>
-Run the following commands to swap new files into the package.
+<br>Run the following commands to swap new files into the package.
 <br><code>dpkg-deb -R install.deb Extracted
 cp dirhelper Extracted/usr/libexec/
 cp _.dylib untether Extracted/var/untether/
 dpkg-deb -b Extracted/ Fixed.deb</code>
-<br>
-<br>Replace <code>payload/common/install.deb</code> with the result. Rebuild p0sixspwn.
 </div>
 </div>
 </div>
