@@ -18,7 +18,7 @@
 <div id="bodyOuter" class="divOuter">
 <div id="bodyInner" class="divInner">
 <h1>fixing dumped IPAs</h1>
-<a target="_blank" href="https://github.com/KJCracks/Clutch">Clutch</a> and <a target="_blank" href="https://github.com/AloneMonkey/frida-ios-dump">frida-ios-dump</a> are essential for archiving iOS apps, but just <a target="_blank" href="https://cydia.akemi.ai/?page/com.linusyang.appinst">appinst</a>-ing the resulting IPAs doesn't always work. A few crash instantly; many seem to work but won't save logins. This is caused by both utilities' failure to preserve entitlements. The solution is hardly worth a webpage, but it stumped me for a bit, and no tutorials seem to mention it.
+<a target="_blank" href="https://github.com/KJCracks/Clutch">Clutch</a> and <a target="_blank" href="https://github.com/AloneMonkey/frida-ios-dump">frida-ios-dump</a> are essential for archiving iOS apps, but just <a target="_blank" href="https://cydia.akemi.ai/?page/com.linusyang.appinst">appinst</a>-ing the resulting IPAs doesn't always work. A few crash instantly; many seem to work but won't save logins. This occurs if entitlements are lost. The solution is hardly worth a webpage, but it stumped me for a bit, and no tutorials seem to mention it.
 <br>
 <br><h2>retrieve encrypted bundle</h2>
 After dumping the IPA as usual, unzip it and check the app bundle's name. Then, on iOS:
