@@ -8,14 +8,12 @@
 </head>
 <body>
 <div id="container">
-<div id="headerOuter" class="divOuter">
-<div id="headerInner" class="divInner">
-<h1><a href="/">ASentientBot</a></h1>
-<a href="mailto:asentientbot@gmail.com">asentientbot@gmail.com</a> • ASentientBot#0323 • <a rel="me" target="_blank" href="https://asentientbot.ca/@a">@a@asentientbot.ca</a>
+<div id="header">
+<div class="fixedWidth">
+<h1><a href="/">green ball</a></h1>
 </div>
 </div>
-<div id="bodyOuter" class="divOuter">
-<div id="bodyInner" class="divInner">
+<div class="fixedWidth">
 <h1>fixing dumped IPAs</h1>
 <a target="_blank" href="https://github.com/KJCracks/Clutch">Clutch</a> and <a target="_blank" href="https://github.com/AloneMonkey/frida-ios-dump">frida-ios-dump</a> are essential for archiving iOS apps, but just <a target="_blank" href="https://cydia.akemi.ai/?page/com.linusyang.appinst">appinst</a>-ing the resulting IPAs doesn't always work. A few crash instantly; many seem to work but won't save logins. This occurs if entitlements are lost. The solution is hardly worth a webpage, but it stumped me for a bit, and no tutorials seem to mention it.
 <br>
@@ -37,7 +35,6 @@ Unzip the dumped IPA. Ad-hoc sign it with the dumped entitlements:
 <br>With certain apps, such as Twitter, it seems necessary to re-run this command for individiual frameworks that handle the keychain.
 <br>
 <br>You can now re-zip the <code>Payload</code> folder, rename to IPA, and install on a jailbroken device.
-</div>
 </div>
 </div>
 </body>

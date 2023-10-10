@@ -37,35 +37,29 @@ body
 	background-color:#ffffff;
 }
 
-.divInner
+.fixedWidth
 {
 	margin:0px auto 0px auto;
 	padding:0.5em;
 	max-width:700px;
 }
 
-#headerOuter
+#header
 {
 	background-color:#00af00;
 }
-#headerInner
+#header h1
 {
-	text-align:center;
-	font-weight:bold;
-	color:#c0f0c0;
+	font-size:3.0em;
+	color:#ffffff;
 }
-#headerInner a
+#header a
 {
 	color:inherit;
 }
-#headerInner a:hover
+#header a:hover
 {
 	background-color:#30a030;
-}
-#headerInner h1
-{
-	font-size:2.9em;
-	color:#ffffff;
 }
 
 h1,h2,h3
@@ -76,7 +70,7 @@ h1,h2,h3
 }
 h1
 {
-	font-size:2.5em;
+	font-size:2.3em;
 	color:#808080;
 }
 h2
@@ -92,7 +86,6 @@ h3
 
 code
 {
-	/* TODO: some weird workarounds up in here */
 	padding:0.1em 0.2em;
 	display:inline-block;
 	white-space:pre-wrap;

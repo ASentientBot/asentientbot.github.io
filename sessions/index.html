@@ -8,14 +8,12 @@
 </head>
 <body>
 <div id="container">
-<div id="headerOuter" class="divOuter">
-<div id="headerInner" class="divInner">
-<h1><a href="/">ASentientBot</a></h1>
-<a href="mailto:asentientbot@gmail.com">asentientbot@gmail.com</a> • ASentientBot#0323 • <a rel="me" target="_blank" href="https://asentientbot.ca/@a">@a@asentientbot.ca</a>
+<div id="header">
+<div class="fixedWidth">
+<h1><a href="/">green ball</a></h1>
 </div>
 </div>
-<div id="bodyOuter" class="divOuter">
-<div id="bodyInner" class="divInner">
+<div class="fixedWidth">
 <h1>SkyLight user session exploit</h1>
 While working on <a href="/bigsur">non-Metal acceleration</a> in 2021, I stumbled on a WindowServer bug allowing any user to switch to another user's session without entering their password. Apple fixed the bug in macOS <a target="_blank" href="https://support.apple.com/en-ca/HT212872">11.6.1</a> and <a target="_blank" href="https://support.apple.com/en-ca/HT212869">12.0.1</a> and paid me a generous bounty.
 <br>
@@ -53,7 +51,6 @@ int main()
 }</code>
 <br>
 <br>Run it from Guest or a second user, and (on a vulnerable version) it should transition to the other session after a few seconds.
-</div>
 </div>
 </div>
 </body>

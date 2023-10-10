@@ -8,14 +8,12 @@
 </head>
 <body>
 <div id="container">
-<div id="headerOuter" class="divOuter">
-<div id="headerInner" class="divInner">
-<h1><a href="/">ASentientBot</a></h1>
-<a href="mailto:asentientbot@gmail.com">asentientbot@gmail.com</a> • ASentientBot#0323 • <a rel="me" target="_blank" href="https://asentientbot.ca/@a">@a@asentientbot.ca</a>
+<div id="header">
+<div class="fixedWidth">
+<h1><a href="/">green ball</a></h1>
 </div>
 </div>
-<div id="bodyOuter" class="divOuter">
-<div id="bodyInner" class="divInner">
+<div class="fixedWidth">
 <h1>fixing Neat NM-1000 driver</h1>
 The <a target="_blank" href="https://support.neat.com/downloads/download-neat-scanner-drivers-for-windows-or-mac">Neat NM-1000 driver</a> is incompatible with recent macOS versions but can be patched.
 <br>
@@ -24,7 +22,6 @@ The package fails harmlessly, but these commands are necessary to fix the driver
 <br><code>sudo install_name_tool -change /System/Library/Frameworks/Carbon.framework/Versions/A/Carbon /System/Library/Frameworks/ICADevices.framework/Versions/A/ICADevices '/Library/Image Capture/Devices/NeatScannersICDriver.app/Contents/Frameworks/Neat.framework/Versions/A/Neat'
 sudo codesign -fs - '/Library/Image Capture/Devices/NeatScannersICDriver.app/Contents/Frameworks/Neat.framework/Versions/A/Neat'</code>
 <br>After a reboot, the scanner is detected by Image Capture, though it sometimes takes a few tries to communicate for some reason...
-</div>
 </div>
 </div>
 </body>
