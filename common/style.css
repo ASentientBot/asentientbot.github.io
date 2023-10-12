@@ -50,7 +50,7 @@ body
 }
 #header h1
 {
-	font-size:3.0em;
+	font-size:1.6em;
 	color:#ffffff;
 }
 #title
@@ -59,7 +59,7 @@ body
 }
 #title:hover
 {
-	background-color:#30a030;
+	background-color:#00c000;
 }
 
 h1,h2,h3
@@ -70,18 +70,18 @@ h1,h2,h3
 }
 h1
 {
-	font-size:2.3em;
-	color:#808080;
+	font-size:2.0em;
+	color:#707070;
 }
 h2
 {
-	font-size:1.7em;
+	font-size:1.6em;
 	color:#a0a0a0;
 }
 h3
 {
 	font-size:1.2em;
-	color:#c0c0c0;
+	color:#d0d0d0;
 }
 
 code
@@ -104,7 +104,7 @@ a
 	padding:0.1em 0.2em;
 	text-decoration:none;
 	color:#0000ff;
-	border-radius:0.05em;
+	border-radius:0.1em;
 	transition:background-color 0.1s;
 }
 a:hover

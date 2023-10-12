@@ -1,6 +1,6 @@
 function randomizeTitle()
 {
-	var sets=[[["amy"]],[["marimo"]],[["junebeetle"]],[["#00af00"]],[["a"],["sentient","self-aware","conscious","thinking"],["bot","automaton","machine","droid"]],[["green","emerald","lime","moss"],["ball","orb","sphere","globe"]],[["green grape"]]]
+	var sets=[[["amy lastname","marimo","junebeetle","#00af00","rgb(0,175,0)","green grape"]],[["a"],["sentient","self-aware","conscious","thinking"],["bot","automaton","machine","droid"]],[["green","emerald","lime","moss"],["ball","orb","sphere","globe"]],[["zoe's","cassandra's","alice's"],["gf"]]]
 	
 	var phrases=[]
 	for(var setIndex in sets)
@@ -29,6 +29,8 @@ function randomizeTitle()
 		}
 		phrases.push.apply(phrases,perms)
 	}
+	
+	console.log(phrases)
 	
 	var phrase=phrases[Math.floor(Math.random()*phrases.length)]
 	
