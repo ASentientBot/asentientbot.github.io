@@ -1,6 +1,6 @@
 function randomizeTitle()
 {
-	var sets=[[["amy lastname","marimo","junebeetle","#00af00","rgb(0,175,0)","green grape"]],[["a"],["sentient","self-aware","conscious","thinking"],["bot","automaton","machine","droid"]],[["green","emerald","lime","moss"],["ball","orb","sphere","globe"]],[["zoe's","cassandra's","alice's"],["gf"]]]
+	var sets=[[["amy lastname","marimo","junebeetle","#00af00","rgb(0,175,0)","green grape","🟢"]],[["a"],["sentient","self-aware","conscious","thinking"],["bot","automaton","machine","droid"]],[["green","emerald","lime","moss"],["ball","orb","sphere","globe"]],[["zoe's","cassandra's","alice's"],["gf"]]]
 	
 	var phrases=[]
 	for(var setIndex in sets)
