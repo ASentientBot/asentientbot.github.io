@@ -1,5 +1,13 @@
+var randomizeTitleDone=false
+
 function randomizeTitle()
 {
+	if(randomizeTitleDone)
+	{
+		return
+	}
+	randomizeTitleDone=true
+	
 	var sets=[[["amy lastname","marimo","junebeetle","green grape"]],[["a"],["sentient","self-aware","conscious"],["bot","automaton","machine","droid"]],[["green","emerald","lime","moss"],["ball","orb","sphere","globe","circle","disc"]]]
 	
 	var phrases=[]
@@ -32,3 +40,5 @@ function randomizeTitle()
 		document.getElementById("title").style.backgroundColor="#fabefd"
 	}
 }
+
+document.addEventListener("DOMContentLoaded",randomizeTitle)
