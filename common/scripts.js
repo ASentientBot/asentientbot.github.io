@@ -1,31 +1,22 @@
 function randomizeTitle()
 {
-	var sets=[[["amy lastname","marimo","junebeetle","#00af00","rgb(0,175,0)","green grape","🟢"]],[["a"],["sentient","self-aware","conscious","thinking"],["bot","automaton","machine","droid"]],[["green","emerald","lime","moss"],["ball","orb","sphere","globe","circle","disc"]]]
+	var sets=[[["amy lastname","marimo","junebeetle","#00af00","rgb(0,175,0)","green grape"]],[["a"],["sentient","self-aware","conscious","thinking"],["bot","automaton","machine","droid"]],[["green","emerald","lime","moss"],["ball","orb","sphere","globe","circle","disc"]]]
 	
 	var phrases=[]
 	for(var setIndex in sets)
 	{
-		var set=sets[setIndex]
-		var perms=[]
-		for(var wordsIndex in set)
+		var perms=sets[setIndex][0]
+		for(var wordsIndex=1;wordsIndex<sets[setIndex].length;wordsIndex++)
 		{
-			var words=set[wordsIndex]
-			if(perms.length==0)
+			var temp=[]
+			for(var permIndex in sets[setIndex][wordsIndex])
 			{
-				perms=words
-			}
-			else
-			{
-				var temp=[]
-				for(var permIndex in perms)
+				for(var wordIndex in sets[setIndex][wordsIndex])
 				{
-					for(var wordIndex in words)
-					{
-						temp.push(perms[permIndex]+" "+words[wordIndex])
-					}
+					temp.push(perms[permIndex]+" "+sets[setIndex][wordsIndex][wordIndex])
 				}
-				perms=temp
 			}
+			perms=temp
 		}
 		phrases.push.apply(phrases,perms)
 	}
