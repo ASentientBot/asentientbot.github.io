@@ -9,7 +9,7 @@ function randomizeTitle()
 		for(var wordsIndex=1;wordsIndex<sets[setIndex].length;wordsIndex++)
 		{
 			var temp=[]
-			for(var permIndex in sets[setIndex][wordsIndex])
+			for(var permIndex in perms)
 			{
 				for(var wordIndex in sets[setIndex][wordsIndex])
 				{
@@ -21,6 +21,7 @@ function randomizeTitle()
 		phrases.push.apply(phrases,perms)
 	}
 	
+	console.log(phrases)
 	var phrase=phrases[Math.floor(Math.random()*phrases.length)]
 	
 	document.title=phrase
