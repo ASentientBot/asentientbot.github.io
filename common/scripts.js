@@ -36,8 +36,7 @@ function randomizeTitle()
 	
 	if(Math.random()>0.99)
 	{
-		document.getElementById("header").style.backgroundColor="#fabefd"
-		document.getElementById("title").style.backgroundColor="#fabefd"
+		document.getElementById("header").className="mauve"
 	}
 }
 

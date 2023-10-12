@@ -62,6 +62,15 @@ body
 	background-color:#00c000;
 }
 
+.mauve
+{
+	background-color:#fabefd !important;
+}
+.mauve a:hover
+{
+	background-color:#ffd0ff !important;
+}
+
 h1,h2,h3
 {
 	margin:0px;
