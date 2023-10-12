@@ -53,11 +53,11 @@ body
 	font-size:3.0em;
 	color:#ffffff;
 }
-#header a
+#title
 {
 	color:inherit;
 }
-#header a:hover
+#title:hover
 {
 	background-color:#30a030;
 }
