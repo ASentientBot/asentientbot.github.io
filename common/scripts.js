@@ -21,7 +21,6 @@ function randomizeTitle()
 		phrases.push.apply(phrases,perms)
 	}
 	
-	console.log(phrases)
 	var phrase=phrases[Math.floor(Math.random()*phrases.length)]
 	
 	document.title=phrase
@@ -30,5 +29,6 @@ function randomizeTitle()
 	if(Math.random()>0.99)
 	{
 		document.getElementById("header").style.backgroundColor="#fabefd"
+		document.getElementById("title").style.backgroundColor="#fabefd"
 	}
 }
