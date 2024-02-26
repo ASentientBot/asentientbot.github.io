@@ -33,11 +33,6 @@ function randomizeTitle()
 	
 	document.title=phrase
 	document.getElementById("title").innerHTML=phrase
-	
-	if(Math.random()>0.99)
-	{
-		document.getElementById("header").className="mauve"
-	}
 }
 
 document.addEventListener("DOMContentLoaded",randomizeTitle)

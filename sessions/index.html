@@ -21,11 +21,13 @@ While working on <a href="/bigsur">non-Metal acceleration</a> in 2021, I stumble
 <br><img alt="" src="/sessions/bigsur.png"/>
 <br><img alt="" src="/sessions/monterey.png"/>
 <br>
+<br>Bizarrely, the bug was <i>reintroduced</i> at some point in Ventura, and fixed again in late 2023, resulting in a second bounty payment.
+<br>
 <br><h2>thanks</h2>
-<a target="_blank" href="https://github.com/moosethegoose2213">ASentientHedgehog</a> tested an early version. <a target="_blank" href="https://twitter.com/916253">Emma (916253)</a> tested on numerous betas, encouraged me to report the bug, and gave great advice along the way.
+<a target="_blank" href="https://github.com/moosethegoose2213">ASentientHedgehog</a> and <a target="_blank" href="https://twitter.com/916253">Emma (916253)</a> tested on countless versions and helped me navigate the reporting process. Thank you!
 <br>
 <br><h2>code</h2>
-This is the program I submitted to Apple. It simply brute-forces <code>SLSSessionSwitchToSessionID</code>, which lacked any entitlement or privilege check.
+This is the program I submitted to Apple. It simply brute-forces <code>SLSSessionSwitchToSessionID</code>, which lacked the necessary checks. A real attacker would do something cleverer; session IDs are readily available in logs and other APIs.
 <br>
 <br><code>// clang -fmodules -F /System/Library/PrivateFrameworks -framework SkyLight thing.m -o thing
 
@@ -50,8 +52,6 @@ int main()
 		SLSSessionSwitchToSessionID(guess);
 	}
 }</code>
-<br>
-<br>Run it from Guest or a second user, and (on a vulnerable version) it should transition to the other session after a few seconds.
 </div>
 </div>
 </body>
