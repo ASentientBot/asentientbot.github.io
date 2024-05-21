@@ -16,12 +16,12 @@
 </div>
 <div class="fixedWidth">
 <h1>SkyLight user session exploit</h1>
-While working on <a href="/bigsur">non-Metal acceleration</a> in 2021, I stumbled on a WindowServer bug allowing any user to switch to another user's session without entering their password. Apple fixed the bug in macOS <a target="_blank" href="https://support.apple.com/en-ca/HT212872">11.6.1</a> and <a target="_blank" href="https://support.apple.com/en-ca/HT212869">12.0.1</a> and paid me a generous bounty.
+While working on <a href="/bigsur">non-Metal acceleration</a> in 2021, I stumbled on a WindowServer bug allowing any user to switch to another session without entering their password. Apple fixed the bug in macOS <a target="_blank" href="https://support.apple.com/en-ca/HT212872">11.6.1</a> and <a target="_blank" href="https://support.apple.com/en-ca/HT212869">12.0.1</a> and paid me a generous bounty.
 <br>
 <br><img alt="" src="/sessions/bigsur.png"/>
 <br><img alt="" src="/sessions/monterey.png"/>
 <br>
-<br>Bizarrely, the bug was <i>reintroduced</i> at some point in Ventura, and fixed again in late 2023, resulting in a second bounty payment.
+<br>Bizarrely, the bug was <i>reintroduced</i> at some point in Ventura, and fixed again in late 2023, resulting in a second bounty payment (but no release note credit this time).
 <br>
 <br><h2>thanks</h2>
 <a target="_blank" href="https://github.com/moosethegoose2213">ASentientHedgehog</a> and <a target="_blank" href="https://twitter.com/916253">Emma (916253)</a> tested on countless versions and helped me navigate the reporting process. Thank you!
@@ -52,6 +52,7 @@ int main()
 		SLSSessionSwitchToSessionID(guess);
 	}
 }</code>
+<br>
 </div>
 </div>
 </body>
